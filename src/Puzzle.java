@@ -35,7 +35,7 @@ public class Puzzle extends JFrame {
 
     public Puzzle() {
         startGame();
-
+        printTiles();
     }
     private void startGame() {
         do {
