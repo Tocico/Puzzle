@@ -142,6 +142,61 @@ public class Puzzle extends JFrame {
         }
     }
 
+    private boolean getXYPosition(String pressedBtn) {
+        for (int y = 0; y < tile.length; y++) {
+            for (int x = 0; x < tile[y].length; x++) {
+                if (tile[y][x].getText().equals(pressedBtn)) {
+                    return moveTiles(y, x);
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean moveTiles(int y, int x) {
+        int blankPositionY = blankPosition / DIMENSION;
+        int blankPositionX = blankPosition % DIMENSION;
+        //Hur långt ifrån blanka position
+        int xDiff = blankPositionX - x;
+        int yDiff = blankPositionY - y;
+
+
+        if (x == blankPositionX || y == blankPositionY) {
+
+            if (xDiff < 0 && y == blankPositionY) {
+                for (int i = 0; i < Math.abs(xDiff); i++) {
+                    tile[blankPositionY][blankPositionX + i].setText(
+                            tile[blankPositionY][blankPositionX + (i + 1)].getText()
+                    );
+                }
+            } else if (xDiff > 0 && y == blankPositionY) {
+                for (int i = 0; i < Math.abs(xDiff); i++) {
+                    tile[blankPositionY][blankPositionX - i].setText(
+                            tile[blankPositionY][blankPositionX - (i + 1)].getText()
+                    );
+                }
+            } else if (yDiff < 0 && x == blankPositionX) {
+                for (int i = 0; i < Math.abs(yDiff); i++) {
+                    tile[blankPositionY + i][blankPositionX].setText(
+                            tile[blankPositionY + (i + 1)][blankPositionX].getText()
+                    );
+                }
+            } else if (yDiff > 0 && x == blankPositionX) {
+                for (int i = 0; i < Math.abs(yDiff); i++) {
+                    tile[blankPositionY - i][blankPositionX].setText(
+                            tile[blankPositionY - (i + 1)][blankPositionX].getText()
+                    );
+                }
+            }
+
+            tile[blankPositionY][blankPositionX].setVisible(true);
+            tile[y][x].setText(Integer.toString(0));
+            tile[y][x].setVisible(false);
+            blankPosition = y * DIMENSION + x;
+        }
+        return true;
+    }
+
 
 
     public static void main(String[] args) {
