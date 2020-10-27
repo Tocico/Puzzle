@@ -197,6 +197,37 @@ public class Puzzle extends JFrame {
         return true;
     }
 
+    private boolean isFinishedGame() {
+        if (!tile[DIMENSION - 1][DIMENSION - 1].getText().equals(String.valueOf(0))) {
+
+            return false;
+        }
+        for (int i = 0; i < TOTALTILES - 1; i++) { //Kolla om det finns 1 - 15.
+            if (!tile[i / DIMENSION][i % DIMENSION].getText().equals(String.valueOf(i + 1))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private void reStartGame() {
+        startGame();
+
+        for (int i = 0; i < tilesList.size(); i++) {
+            int positionY = i / DIMENSION;
+            int positionX = i % DIMENSION;
+
+            tile[positionY][positionX].setText(String.valueOf(tilesList.get(i)));
+            tile[positionY][positionX].setVisible(true);
+
+            if (tilesList.get(i) == 0) {
+                blankPosition = i;
+                tile[positionY][positionX].setVisible(false);
+            }
+        }
+    }
+
 
 
     public static void main(String[] args) {
