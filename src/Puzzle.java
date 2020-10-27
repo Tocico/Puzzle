@@ -36,6 +36,7 @@ public class Puzzle extends JFrame {
     public Puzzle() {
         startGame();
         printTiles();
+        //cheatInitialTiles();
     }
     private void startGame() {
         do {
@@ -121,6 +122,7 @@ public class Puzzle extends JFrame {
             String pressedBtn = ((JButton) e.getSource()).getText();
 
             if (pressedBtn.equals("RESET")) {
+                msg.setVisible(false);
                 reStartGame();
             } else {
                 if (!getXYPosition(pressedBtn)) {
@@ -129,6 +131,7 @@ public class Puzzle extends JFrame {
                     msg.setFont(new Font("SansSerif", Font.BOLD, 40));
                     msg.setForeground(Color.red);
                     add(msg, BorderLayout.NORTH);
+                    msg.setVisible(true);
                 } else {
                     if (isFinishedGame()) {
                         msg = new JLabel(
@@ -136,6 +139,7 @@ public class Puzzle extends JFrame {
                         msg.setFont(new Font("SansSerif", Font.BOLD, 40));
                         msg.setForeground(new Color(0x2779AD));
                         add(msg, BorderLayout.NORTH);
+                        msg.setVisible(true);
                     }
                 }
             }
@@ -228,10 +232,31 @@ public class Puzzle extends JFrame {
         }
     }
 
+    private void cheatInitialTiles() {
+        tilesList.clear();
+        tilesList.add(0,1);
+        tilesList.add(1,2);
+        tilesList.add(2,3);
+        tilesList.add(3,4);
+        tilesList.add(4,5);
+        tilesList.add(5,6);
+        tilesList.add(6,7);
+        tilesList.add(7,8);
+        tilesList.add(8,9);
+        tilesList.add(9,10);
+        tilesList.add(10,11);
+        tilesList.add(11,12);
+        tilesList.add(12,13);
+        tilesList.add(13,14);
+        tilesList.add(14,0);
+        tilesList.add(15,15);
+
+        printTiles();
+
+    }
 
 
     public static void main(String[] args) {
-
         Puzzle puzzle = new Puzzle();
     }
 }
