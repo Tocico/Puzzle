@@ -4,6 +4,8 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -80,6 +82,7 @@ public class Puzzle extends JFrame {
             tile[positionY][positionX].setForeground(new Color(0xEBEFEB));
             tile[positionY][positionX].setFont(new Font("SansSerif", Font.BOLD, 60));
             tile[positionY][positionX].setBorder(compound);
+            tile[positionY][positionX].addMouseListener(new MouseAdapterEvent());
             tile[positionY][positionX].setOpaque(true);
             panel.add(tile[positionY][positionX]);
 
@@ -99,6 +102,7 @@ public class Puzzle extends JFrame {
         resetBtn.setFont(new Font("SansSerif", Font.BOLD, 20));
         resetBtn.setForeground(new Color(0xFFFFFF));
         resetBtn.setBackground(new Color(0x9A3B4A));
+        resetBtn.addMouseListener(new MouseAdapterEvent());
         resetBtn.setOpaque(true);
         resetBtn.setBorder(compound);
 
@@ -109,6 +113,33 @@ public class Puzzle extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    private class MouseAdapterEvent extends MouseAdapter {
+        @Override
+        public void mousePressed(MouseEvent e) {
+            String pressedBtn = ((JButton) e.getSource()).getText();
+
+            if (pressedBtn.equals("RESET")) {
+                reStartGame();
+            } else {
+                if (!getXYPosition(pressedBtn)) {
+                    msg = new JLabel(
+                            "<html><h1>Det gick något fel</h1></html>", SwingConstants.CENTER);
+                    msg.setFont(new Font("SansSerif", Font.BOLD, 40));
+                    msg.setForeground(Color.red);
+                    add(msg, BorderLayout.NORTH);
+                } else {
+                    if (isFinishedGame()) {
+                        msg = new JLabel(
+                                "<html><h1>GRATTIS!!</h1></html>", SwingConstants.CENTER);
+                        msg.setFont(new Font("SansSerif", Font.BOLD, 40));
+                        msg.setForeground(new Color(0x2779AD));
+                        add(msg, BorderLayout.NORTH);
+                    }
+                }
+            }
+        }
     }
 
 
