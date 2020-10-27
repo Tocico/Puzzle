@@ -1,4 +1,9 @@
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -15,6 +20,14 @@ public class Puzzle extends JFrame {
     private final int DIMENSION = 4;
     private final int TOTALTILES = DIMENSION * DIMENSION;
     ArrayList<Integer> tilesList = new ArrayList<>(TOTALTILES);
+    private int blankPosition;
+    private JButton[][] tile = new JButton[DIMENSION][DIMENSION];
+    private JButton resetBtn = new JButton("RESET");
+    private JPanel panel = new JPanel();
+    private JLabel msg;
+    private Border line = new LineBorder(Color.WHITE);
+    private Border margin = new EmptyBorder(10, 15, 10, 15);
+    private Border compound = new CompoundBorder(line, margin);
 
 
 
@@ -54,6 +67,50 @@ public class Puzzle extends JFrame {
         }// antalet av inversioner måste vara jämnt för att bli lösbar puzzel eftersom kottaste väg till 0(jämn)
         return countInversions % 2 == 0;
     }
+
+    private void printTiles() {
+        for (int i = 0; i < tilesList.size(); i++) {
+            int positionY = i / DIMENSION;
+            int positionX = i % DIMENSION;
+
+
+            tile[positionY][positionX] = new JButton(String.valueOf(tilesList.get(i)));
+
+            tile[positionY][positionX].setBackground(new Color(0x194B0E));
+            tile[positionY][positionX].setForeground(new Color(0xEBEFEB));
+            tile[positionY][positionX].setFont(new Font("SansSerif", Font.BOLD, 60));
+            tile[positionY][positionX].setBorder(compound);
+            tile[positionY][positionX].setOpaque(true);
+            panel.add(tile[positionY][positionX]);
+
+
+            if (tilesList.get(i) == 0) {
+                blankPosition = i;
+                tile[positionY][positionX].setVisible(false);
+            }
+        }
+
+
+        panel.setLayout(new GridLayout(DIMENSION, DIMENSION));
+
+        add(panel, BorderLayout.CENTER);
+        add(resetBtn, BorderLayout.SOUTH);
+
+        resetBtn.setFont(new Font("SansSerif", Font.BOLD, 20));
+        resetBtn.setForeground(new Color(0xFFFFFF));
+        resetBtn.setBackground(new Color(0x9A3B4A));
+        resetBtn.setOpaque(true);
+        resetBtn.setBorder(compound);
+
+
+        pack();
+        setTitle("15 Puzzle");
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
 
 
     public static void main(String[] args) {
